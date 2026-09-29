@@ -5,24 +5,30 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'javac src/Main.java'
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
 
         stage('Run') {
             steps {
-                sh 'java -cp src Main'
+                sh 'java -cp target/classes Main'
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'CI Pipeline completed successfully!'
         }
 
         failure {
-            echo 'Pipeline failed!'
+            echo 'CI Pipeline failed!'
         }
     }
 }
